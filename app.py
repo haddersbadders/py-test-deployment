@@ -69,6 +69,14 @@ def load_data():
         st.info("Make sure the Service Account email has been added as a Viewer to the Google Sheet.")
         return None
 
+# App Meta Info
+st.sidebar.markdown(
+    '**Version:** 1.0.2 | <a href="https://github.com/haddersbadders/py-test-deployment" target="_blank">'
+    '<img src="https://img.shields.io/badge/GitHub-Repo-181717?logo=github&logoColor=white" style="vertical-align: middle; margin-bottom: 3px;" alt="GitHub"></a>', 
+    unsafe_allow_html=True
+)
+st.sidebar.markdown("---")
+
 # Sidebar controls
 st.sidebar.header("Controls")
 if st.sidebar.button("🔄 Refresh Data"):
@@ -113,6 +121,6 @@ if df is not None:
             filtered_df = filtered_df[mask]
             
         st.write(f"Showing {len(filtered_df)} of {len(df)} rows:")
-        st.dataframe(filtered_df, use_container_width=True)
+        st.dataframe(filtered_df, width="stretch")
 else:
     st.warning("Could not load data. Please check your configuration.")
