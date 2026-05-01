@@ -84,15 +84,33 @@ if df is not None:
     if df.empty:
         st.warning("The connected Google Sheet is empty.")
     else:
-        # Simple interactive element: Text filter
-        search_query = st.text_input("🔍 Search data across all columns:")
+        # --- Sidebar Filters ---
+        st.sidebar.markdown("---")
+        st.sidebar.subheader("Data Filters")
+        
+        # Let user select which columns to filter on
+        columns_to_filter = st.sidebar.multiselect("Select columns to filter:", df.columns.tolist())
+        
+        # Start with the full dataframe
+        filtered_df = df.copy()
+        
+        for col in columns_to_filter:
+            # Get unique values for the selected column, handling NAs
+            unique_vals = sorted(list(set(df[col].dropna().astype(str).tolist())))
+            
+            # Display a multiselect for the column's values
+            selected_vals = st.sidebar.multiselect(f"Select values for '{col}':", unique_vals, default=unique_vals)
+            
+            # Apply the filter
+            filtered_df = filtered_df[filtered_df[col].astype(str).isin(selected_vals)]
+
+        # --- Main Area Global Text Filter ---
+        search_query = st.text_input("🔍 Global Search (across all columns):")
         
         if search_query:
             # Filter the dataframe based on search query
-            mask = df.apply(lambda row: row.astype(str).str.contains(search_query, case=False, na=False).any(), axis=1)
-            filtered_df = df[mask]
-        else:
-            filtered_df = df
+            mask = filtered_df.apply(lambda row: row.astype(str).str.contains(search_query, case=False, na=False).any(), axis=1)
+            filtered_df = filtered_df[mask]
             
         st.write(f"Showing {len(filtered_df)} of {len(df)} rows:")
         st.dataframe(filtered_df, use_container_width=True)
