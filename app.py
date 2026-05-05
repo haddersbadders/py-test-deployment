@@ -71,7 +71,7 @@ def load_data():
 
 # App Meta Info
 st.sidebar.markdown(
-    '**Version:** 1.0.3 | <a href="https://github.com/haddersbadders/py-test-deployment" target="_blank">'
+    '**Version:** 1.0.4 | <a href="https://github.com/haddersbadders/py-test-deployment" target="_blank">'
     '<img src="https://img.shields.io/badge/GitHub-Repo-181717?logo=github&logoColor=white" style="vertical-align: middle; margin-bottom: 3px;" alt="GitHub"></a>', 
     unsafe_allow_html=True
 )
